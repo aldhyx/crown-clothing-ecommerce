@@ -4,6 +4,7 @@ import {
     signInWithRedirect,
     signInWithPopup,
     GoogleAuthProvider,
+    createUserWithEmailAndPassword
 } from 'firebase/auth';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
 
@@ -29,7 +30,8 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider)
 export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider);
 
 export const db = getFirestore();
-export const createUserDocumentFromAuth = async (userAuth) => {
+export const createUserDocumentFromAuth = async (userAuth, additionalInformation) => {
+    if (!userAuth) return;
     /**
      * Used to check and get the doc references whether is exist or not
      * @param1 db instance
@@ -37,15 +39,12 @@ export const createUserDocumentFromAuth = async (userAuth) => {
      * @param3 document id
      */
     const userDocRef = doc(db, 'users', userAuth.uid);
-    console.log(userDocRef);
 
     /**
      * Trying to get the data whether is exist or not
      * @param1 doc reference
      */
     const userSnapshot = await getDoc(userDocRef);
-    console.log(userSnapshot);
-    console.log(userSnapshot.exists());
 
     if (!userSnapshot.exists()) {
         const { displayName, email } = userAuth;
@@ -56,11 +55,21 @@ export const createUserDocumentFromAuth = async (userAuth) => {
              * @param1 doc references
              * @param2 data to store
              */
-            await setDoc(userDocRef, { displayName, email, createdAt })
+            await setDoc(userDocRef, {
+                displayName,
+                email,
+                createdAt,
+                ...additionalInformation
+            });
         } catch (error) {
             console.log("Error creating the user", error)
         }
     }
 
     return userDocRef
+}
+
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+    if (!email || !password) return
+    return await createUserWithEmailAndPassword(auth, email, password);
 }
