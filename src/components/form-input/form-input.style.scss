@@ -23,6 +23,7 @@ $main-color: black;
         border-radius: 0;
         border-bottom: 1px solid $sub-color;
         margin: 25px 0;
+        font-family: 'Open Sans';
 
         &:focus {
             outline: none;
@@ -44,11 +45,12 @@ $main-color: black;
         position: absolute;
         pointer-events: none;
         left: 5px;
-   top: 10px;
-   transition: 300ms ease all;
+        top: 10px;
+        transition: 300ms ease all;
+        font-family: 'Open Sans';
 
-   &.shrink {
-       @include shrinkLabel();
-   }
-   }
-   }
+        &.shrink {
+            @include shrinkLabel();
+        }
+    }
+}
