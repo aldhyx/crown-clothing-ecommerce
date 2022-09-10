@@ -10,6 +10,8 @@ import {
 import Button from "../button/button.component";
 import FormInput from "../form-input/form-input,component";
 import './sign-in-form.style.scss';
+import { useContext } from "react";
+import { UserContext } from "../../contexts/user.contex";
 
 const defaultFormFields = {
     email: '',
@@ -20,11 +22,14 @@ const SignInForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { email, password } = formFields;
 
+    const { setCurrentUser } = useContext(UserContext)
+
     const signInWithGooglePopupHandler = async () => {
         // get user data from google after sign in
         const { user } = await signInWithGooglePopup();
         // create user doc in users collection on firebase
         const userDocRef = await createUserDocumentFromAuth(user);
+
     };
 
     const signInWithGoogleRedirectHandler = async () => {
@@ -53,8 +58,8 @@ const SignInForm = () => {
         event.preventDefault();
 
         try {
-            const response = await signInAuthUserWithEmailAndPassword(formFields.email, formFields.password);
-            console.log("🚀 ~ file: sign-in-form.component.jsx ~ line 57 ~ onSubmitHandler ~ response", response)
+            const { user } = await signInAuthUserWithEmailAndPassword(formFields.email, formFields.password);
+            setCurrentUser(user);
 
             resetFormFields();
         } catch (error) {
