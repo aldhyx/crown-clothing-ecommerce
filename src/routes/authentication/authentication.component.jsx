@@ -7,8 +7,8 @@ const Authentication = () => {
 
     return (
         <div className='authentication-container'>
-            <SignUpForm />
             <SignInForm />
+            <SignUpForm />
         </div>
     );
 };

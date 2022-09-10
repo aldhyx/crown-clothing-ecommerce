@@ -27,6 +27,9 @@ const SignInForm = () => {
     const signInWithGooglePopupHandler = async () => {
         // get user data from google after sign in
         const { user } = await signInWithGooglePopup();
+
+        setCurrentUser(user);
+
         // create user doc in users collection on firebase
         const userDocRef = await createUserDocumentFromAuth(user);
 
