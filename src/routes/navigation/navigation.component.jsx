@@ -9,9 +9,11 @@ import CartIcon from '../../components/cart-icon/cart-icon.component';
 import CartDropdown from '../../components/cart-dropdown/cart-dropdown.component';
 
 import './navigation.styles.scss';
+import { CartContext } from '../../contexts/cart.context';
 
 const Navigation = () => {
     const { currentUser } = useContext(UserContext);
+    const { isCartOpen } = useContext(CartContext);
 
     return (
         <>
@@ -35,7 +37,9 @@ const Navigation = () => {
                     <CartIcon />
                 </div>
             </div>
-            <CartDropdown />
+
+            {isCartOpen && (<CartDropdown />)}
+
             <Outlet />
         </>
     )
