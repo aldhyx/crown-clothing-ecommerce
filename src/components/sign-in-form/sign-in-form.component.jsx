@@ -6,7 +6,7 @@ import {
     signInWithGooglePopup,
     signInWithGoogleRedirect,
 } from '../../utils/firebase/firebase.utils';
-import Button from "../button/button.component";
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import FormInput from "../form-input/form-input,component";
 import './sign-in-form.style.scss';
 const defaultFormFields = {
@@ -82,13 +82,13 @@ const SignInForm = () => {
                     <Button type="submit">Sign In</Button>
 
                     {/* Sign In With Pop Up */}
-                    <Button type='button' buttonType={'google'} onClick={signInWithGooglePopupHandler}>
+                    <Button type='button' buttonType={BUTTON_TYPE_CLASSES.google} onClick={signInWithGooglePopupHandler}>
                         Google Sign In
                     </Button>
 
                     {/* Sign In With Redirect */}
                     {/* 
-                    <Button buttonType={'google'} onClick={signInWithGoogleRedirect}>
+                    <Button buttonType={BUTTON_TYPE_CLASSES.google} onClick={signInWithGoogleRedirect}>
                         Google Sign In
                     </Button> 
                     */}
