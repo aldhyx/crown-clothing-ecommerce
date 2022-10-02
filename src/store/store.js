@@ -4,7 +4,8 @@ import { rootReducer } from './root-reducer';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-const middleWares = [logger];
+// Jika true maka akan mengembalikan [logger], jika false akan mengambalikan []
+const middleWares = [process.env.NODE_ENV !== 'production' && logger].filter(Boolean);
 const composeEnhancers = compose(applyMiddleware(...middleWares));
 
 const persistConfig = {
