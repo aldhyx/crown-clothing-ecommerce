@@ -6,7 +6,8 @@ import storage from 'redux-persist/lib/storage';
 
 // Jika true maka akan mengembalikan [logger], jika false akan mengambalikan []
 const middleWares = [process.env.NODE_ENV !== 'production' && logger].filter(Boolean);
-const composeEnhancers = compose(applyMiddleware(...middleWares));
+const composeEnhancer = (process.env.NODE_ENV !== 'production' && window && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
+const composeEnhancers = composeEnhancer(applyMiddleware(...middleWares));
 
 const persistConfig = {
     key: 'root',
