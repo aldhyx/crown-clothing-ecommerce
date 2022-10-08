@@ -1,14 +1,9 @@
-import { useEffect, useState } from "react";
-import { getRedirectResult } from 'firebase/auth';
-import {
-    auth,
-    signInAuthUserWithEmailAndPassword,
-    signInWithGooglePopup,
-    signInWithGoogleRedirect,
-} from '../../utils/firebase/firebase.utils';
+import { useState } from "react";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import FormInput from "../form-input/form-input,component";
 import './sign-in-form.style.scss';
+import { useDispatch } from "react-redux";
+import { emailSignInStart, googleSignInStart } from "../../store/user/user.action";
 const defaultFormFields = {
     email: '',
     password: '',
@@ -17,24 +12,11 @@ const defaultFormFields = {
 const SignInForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { email, password } = formFields;
-
+    const dispatch = useDispatch();
 
     const signInWithGooglePopupHandler = async () => {
-        // get user data from google after sign in
-        const { user } = await signInWithGooglePopup();
+        dispatch(googleSignInStart())
     };
-
-    const signInWithGoogleRedirectHandler = async () => {
-        /**
-         * Get user data from google after sign in
-         * return null || object
-         */
-        const response = await getRedirectResult(auth);
-    };
-
-    useEffect(() => {
-        signInWithGoogleRedirectHandler();
-    }, []);
 
     const onChangeHandler = (event) => {
         const { name, value } = event.target;
@@ -45,8 +27,7 @@ const SignInForm = () => {
         event.preventDefault();
 
         try {
-            const { user } = await signInAuthUserWithEmailAndPassword(formFields.email, formFields.password);
-
+            dispatch(emailSignInStart(email, password));
             resetFormFields();
         } catch (error) {
             switch (error.code) {
@@ -85,13 +66,6 @@ const SignInForm = () => {
                     <Button type='button' buttonType={BUTTON_TYPE_CLASSES.google} onClick={signInWithGooglePopupHandler}>
                         Google Sign In
                     </Button>
-
-                    {/* Sign In With Redirect */}
-                    {/* 
-                    <Button buttonType={BUTTON_TYPE_CLASSES.google} onClick={signInWithGoogleRedirect}>
-                        Google Sign In
-                    </Button> 
-                    */}
                 </div>
             </form>
         </div>
