@@ -1,14 +1,14 @@
 import { useSelector } from 'react-redux';
 import CheckoutItem from '../../components/checkout-item/checkout-item.component';
 import { selectCartItems, selectCartTotal } from '../../store/cart/cart.selector';
-import './checkout.style.scss';
+import { CheckoutContainer } from './checkout.style';
 
 const Checkout = () => {
     const cartTotal = useSelector(selectCartTotal);
     const cartItems = useSelector(selectCartItems);
 
     return (
-        <div className='checkout-container'>
+        <CheckoutContainer>
             <div className="checkout-header">
                 <div className="header-block">
                     <span>Product</span>
@@ -32,7 +32,7 @@ const Checkout = () => {
             <span className='total'>
                 Total: ${cartTotal}
             </span>
-        </div>
+        </CheckoutContainer>
     )
 }
 
